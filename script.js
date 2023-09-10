@@ -18,6 +18,17 @@ const Transactions = [
 // Get transaction data from storage
 let transactions = Transactions;
 
+// Function to save transactions to local storage
+function saveTransactiontoLoacalStoratge() {
+    localStorage.setItem('transactions' , JSON.stringify(transactions));
+}
+
+// Function to get transactio from local storage
+function getTransactionsFromLocalStorage(){
+    const storedTransactions = localStorage.getItem('transactions');
+    return storedTransactions ? JSON.parse(storedTransactions) : [];
+}
+
 // Function to display transactions in DOM - History section
 function displayTransaction(transaction) {
     // Calculate if transaction is Credit or Debit
@@ -82,6 +93,9 @@ function addTransaction(e) {
         displayTransaction(transaction);
         // Update all balances
         updateBalance();
+        // save transation to local storage
+        saveTransactiontoLoacalStoratge();
+
         // Clear form fields
         reason.value = '';
         amount.value = '';
@@ -94,6 +108,8 @@ function deleteTransaction(id) {
     transactions = transactions.filter( transaction => transaction.id !== id );
     // Initialize the app again to update the DOM
     init();
+    // save transation to local storage
+    saveTransactiontoLoacalStoratge();
 };
 
 // Function to Initialize the Application
